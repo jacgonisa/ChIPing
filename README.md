@@ -1,42 +1,13 @@
-# ChIPs Ahoy: An automatic pipeline to process and analyse ChIP-seq data
+# ChIPing: An automatic pipeline to process and analyse ChIP-seq data
 
 Authors: 
-
 González Isa, Jacob
 López Asensio, Pilar
 Pérez López, José Ignacio
 
+Course: Bioinformatics and Genomic Analysis
+BSc in Biochemistry
 University of Seville
-
-## 1. Summary
-
-## 2. Dependencies
-
-## 3. Input
-
-## 4. Usage
-
-### a. Parameters read
-
-### b. Workspace generation
-
-### c. Index building
-
-### d. Sample load
-
-### e. Sample processing
-
-#### i. Quality control
-
-#### ii. Reads alignment
-
-### f. Peaks calling
-
-### g. Regulome determination and Gene Set Enrichment Analysis
-
-### h. Binding motifs search
-
-## 7. Case study
 
 
 ## 1. Summary
