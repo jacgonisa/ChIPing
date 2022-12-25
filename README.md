@@ -1,4 +1,4 @@
-# ChIPing: An automatic pipeline to process and analyse ChIP-seq data
+# ChIPing: A pipeline for ChIP-seq data analysis 
 
 Authors: 
 González Isa, Jacob
