@@ -2,7 +2,9 @@
 
 Authors: 
 
-Andrea Fernández Veloso, Adrián Perera Bonaño and Emma Serrano Pérez
+González Isa, Jacob
+López Asensio, Pilar
+Pérez López, José Ignacio
 
 University of Seville
 
