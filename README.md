@@ -39,6 +39,38 @@ This pipeline requires the installation of:
 
 ## 3. Summary
 
+1. **chipipe.sh**
+   * Read parameters.
+   * Prepare workspace.
+   * Copy the data.
+   * Create a genome index ([`bowtie2-build`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
+   * Submit via SGE chip_sample_processing.sh and control_sample_processing for each sample.
+ 2. **chip_sample_processing.sh** and **control_sample_processing.sh** 
+    * Quality control ([`fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)).
+    * Map to reference genome ([`bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
+    * Generate sorted bam file ([`samtools`](http://www.htslib.org)).
+    * Submit via SGE peak_determination.sh for each sample.
+ 3. **peak_determination.sh**
+    * Peak determination ([`masc2 callpeak`](https://github.com/macs3-project/MACS)).
+    * Peak annotation by submitting *target_genes.R* for each sample.
+    * Homer-motifs-finding ([`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)).
+    * Overlapping target genes for replicates, GO and KEGG enrichment by submitting *exp_analysis.R* for each experiment.
+ 4. **target_genes.R**
+    * Install packages if neccesary ([`BiocManager`](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)).
+    * Read arguments.
+    * Read peak file ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
+    * Definition of promoter region ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
+    * Peak annotation ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html),[`DO.db`](http://bioconductor.org/packages/release/data/annotation/html/DO.db.html)).
+    * Extract target genes from annotation.
+ 5. **exp_analysis.R**
+    * Install packages if neccesary ([`BiocManager`](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)).
+    * Read arguments.
+    * Read target gene files for each replicate.
+    * Extraction of overlapping genes in all replicates ([`VennDiagram`](https://cran.r-project.org/web/packages/VennDiagram/VennDiagram.pdf)).
+    * Gene ontology enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html)).
+    * KEGG pathway enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html),[`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)).
+    
+    
 ## 4. Usage
 
 ```sh
@@ -49,184 +81,27 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 
 > - **installation_directory.** Where you install the package.
 > - **working_directory.** Where your analysis are saved.
-> - **experiment_name.*" -> the name the folders and the results of your analysis will bear
- - "number_replicas:" -> the number of replicas you have conducted for your study, e.g. 3.
- - "path_genome:" -> the path that has to be followed to access the genome of the organism you have done your experiment with; e.g. /home/lola_flores/my_genomes/atha_genome.fa
- - "path_annotation:" -> the path that has to be followed to access the annotations for the genome of the organism you have done your experiment with; e.g. /home/lola_flores/my_annotations/atha_anno.gtf
- - "path_sample_chip_i:" (with i being a natural number) -> the path that has to be followed to access the ChIP-seq data of the sample no. i you have processed; e.g. /home/lola_flores/my_chip_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
- - "path_sample_input_i" (with i being a natural number) -> the path that has to be followed to access the input data relating to the sample no. i you have processed; e.g. /home/lola_flores/my_chip_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
- - "universe_chromosomes:" -> the ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In case you want to use all the available chromosomes, write "all".
- - "p_value_cutoff_go:" -> the p-value threshold for GO terms enrichment statistical analysis. e.g. 0.05
- - "p_value_cutoff_kegg:" -> the p-value threshold for kegg pathways enrichment statistical analysis. e.g. 0.05
- - "type_of_peak:" -> the shape of the peaks you are looking for. The value of this parameter must be either 1 (narrow peaks, used for TF binding) or 2 (broad peaks, used for histone modifications).
- - "single_or_paired:" -> the type of reads of the files. The value of this parameter must be either 1 (single end reads) or 2 (paired end reads).
- - "tss_upstream:" ->  the upstream number of bases for defining the TSS region.
- - "tss_downstream:" -> the downstream number of bases for defining the TSS region. Must be positive. This way, setting the TSS region in (-1000,1000) would be done writing a 1000 in both tss_upstream and tss_downstream parameters.
-
-## 3. Input
-
-The pipeline chipsahoy requires only one parameter. This parameter, the so-called “parameters file” is a TXT file with the parameters needed by the pipeline. To know more about the file content, go to section 4.a. 
-
-When no parameters are passed to the script, a help message is printed out on the screen to show to the user how to make the pipeline work. Also, if the user tries to pass more than one parameter to the script, a message is printed out on the screen to notify and indicate to the user how to access the usage and run the script properly. 
-
-## 4. Usage
-
-To run the pipeline, write on the command line:
-
-./chipsahoy path_to_parameters_file/parameters_file.txt
-
-To store the output of the whole script on a file, including errors, write on the command line: 
-
-./chipsahoy path_to_parameters_file/parameters_file.txt | tee output_file_name.txt
-
-### a. Parameters read
-
-The parameters passed to the function need to be written on a TXT file, the “parameters file”. An example of a parameters file can be found on the directory test. When the pipeline is run with this file, a case study is generated. To see the case study, go to section 7.
-
-The parameters file includes the following information:
-
--installation_directory: The path to the directory where the ChIPs Ahoy repository shall be installed.
-
--working_directory: The path to the directory where will be generated the experiment directory.
-
--experiment_name: The name of the experiment directory, which will be located in the working directory. Every file created by the pipeline will be saved in a subdirectory of the experiment directory.
-
--number_rep_tf: Number of replicas for every transcription factor. This pipeline is designed to work with the same number of replicas for each transcription factor.
-
--number_rep_control: Number of replicas for every control. The information given above for the parameter “Number of replicas for every transcription factor” is applicable. 
-
--path_genome: The path to the file to be used as reference genome, in FASTA format.
-
--path_annotation: The path to the file to be used as reference genome annotation, in GTF format.
-
--number_TF: Number of transcription factors. This pipeline can process more than one transcription factor at once.
-
--number_control: Number of control samples. This pipeline can use more than one sample as a control. Know that every control sample given to the pipeline will be used for every transcription factor.
-
--path_chip_X: The path to every sample file, in GZ format. Add to the parameters file, as many lines of these parameters as number chip samples -being X the number of the sample-. To use more than one replica for any sample, write the path for every replica in the same line, all of them separated by a space.
-
--path_control_X: The path to every control sample. The information given above above for the parameter “Path for every chip sample” is applicable.
-
--up1: Number of base pairs upstream the narrow peaks in which will be defined the promoters and the transcription start site (tss).
-
--down1: Number of base pairs downstream the narrow peaks in which will be defined the promoters and the transcription start site (tss).
-
--up2: Number of base pairs upstream the summits in which will be defined the promoters and the transcription start site (tss).
-
--down2: Number of base pairs downstream the summits in which will be defined the promoters and the transcription start site (tss).
-
--pvalueCutoffgo: p-valor used in the Gene Ontology Gene Set Enrichment Analysis.
-
--pvalueCutoffkegg: p-valor used in the KEGG Pathways Gene Set Enrichment Analysis.
-
--paired: Write 0 for single-end sequenced samples and 1 for paired-end sequenced samples.
-
-When a parameters file is passed to the pipeline chipsahoy, firstly, the pipeline stores the lines of the parameters file in different variables, and prints out on the screen every variable for each parameter.
-
-To read the chip and control samples, as their number is changeable, two identical while loops are used. These loops create an array, CHIP or CONTROL, in which the routes for every sample are stored. To break every line read in its different elements -replicas, separated by a space-, the array is passed to string, broken, and then every element is stored, separately, in a new array of the same name, CHIP or CONTROL. The lengths of the arrays and string created in every step are printed out on the screen. Thanks to these loops, chipsahoy can process, at once, more than one chip and control samples, each one with more than one replica.
-
-### b. Workspace generation
-
-To create the workspace, the route of the working directory is run. Once there, the experiment directory is created with the name given on the parameter file, then accessed, and there, five directories are created: genome, annotation, samples, results and scripts.
-
-After that, using their paths, written on the parameters file, the genome and annotation files are copied to the directories genome and annotation, under the names “genome.fa” and “annotation.gtf”, respectively. 
-
-### c. Index building
-
-To build the index, the pipeline leaves the annotation directory and accesses the genome directory.
-
-Using the function bowtie2-build, which receives the genome.fa and a word to use as a suffix of the index files, the pipeline builds an index of the reference genome, and saves it on the genome directory, under the suffix .index.
-
-### d. Sample load
-
-To generate the samples directories, first, the pipeline leaves the genome directory and accesses the samples directory. There, two subdirectories, chip and control, are created. Since the number of chips and controls -paired-end sequenced or not- and their replicas can change, two identical while loops, one for chip samples and the other for control samples, access those directories and create as many directories in the chip and control directories, as the numbers of each type of samples, with their replicas, are specified in the parameters file. These directories are named chip_sample_X and control_sample_X, being X the number of the sample. In these same loops, the elements from the arrays CHIP and CONTROL, which are the paths to each sample, are copied, in order, to their respectives directories. 
-
-Every sample file will be copied under the name chip_X_Y.gz or control_Xl_Y.gz, being X the number of the sample, and Y the number of the replica. Also, if the samples were paired-end sequenced, they will be saved under the name chip_X_Y_Z.gz or control_X_Y_Z.gz, being Z = 1 and 2, because of the two files obtained from the paired-end sequencing.
-
-### e. Sample processing
-
-To process samples, the pipeline leaves the last control sample directory created, then leaves the control directory, and the samples directory, and accesses the results directory.
-
-Then, two identical loops can be found, one for chip samples, and the other for control samples. These loops go through every replica, of every chip or control sample -also takes into account if the sequencing was paired-end or not- and generates the variables SAMPLENAME1 and SAMPLENAME2, with the names of the corresponding sample files, which include information of the number of sample (X), replica (Y) and sequencing method followed (Z), as previously explained. Then, these loops access the ChipsAhoy directory from the installation directory, to run the bash script “sample_processing” using the command bash. The arguments passed to this script are the following: path to the pertinent chip or control directory from the working directory, the variables SAMPLENAME1, SAMPLENAME2, PAIRED -depending if the samples are paired-end or not-, and chip_X_Y or control_X_Y, which will be the new sample name after the reads are mapped to the reference genome. To know more about the reads alignment, go to section 4.e.ii.
-
-In the sample processing script, a loop to make the quality control and reads alignment can be found. This loop takes into account if the samples are paired-end or not. 
-
-#### i. Quality control
-
-Once the pipeline runs the sample_processing bash script, a quality control is made for the sample passed to the script, using the function fastqc, which receives the name of the sample (SAMPLE1) or samples -if their paired-end, SAMPLE1 and SAMPLE2- . As the last folder accessed was the pertinent sample directory, for each sample, the quality control results will be saved in that same directory. The quality control results can be viewed opening the HTML file created.
-
-#### ii. Reads alignment
-
-The next step is to align the reads to the index of the reference genome, previously built. This way, the different zones of the genome where reads accumulate, which probably correspond to binding regions of the transcription factor, can be identified. To make the alignment, the bowtie2 function is used. The parameters passed to this function are the following: 
-
--x    /path/to/index_of_reference_genome
-
--U or -1 -2   , depending if the samples are single or paired-end, respectively. This argument receives the GZ file of the sample being processed.
-
--S   output name of the SAM file generated. This name corresponds to the last parameter passed to the while loop that runs the sample_processing bash script. To remember this, go to section 2e.
-
-During the SAM file generation, the code will be printed on a mapping file in TXT format, and a loading bar will be printed out on the screen to let the user know that the SAM is being created. The loading bar adds a lightning symbol per second that the SAM file is being created.
-
-After the SAM file is created, since it is a very heavy file, it is converted to a BAM file under the same name, given by the variable SAMPLENAME, as explained before. To make this conversion, the function samtools sort is used. The parameters passed to this function are the output BAM file name (SAMPLENAME.bam) and the SAM file. Then, the SAM file is removed.
-
-Also, to ease the access to the mapping information to the user, from the mapping file created previously, the lines that correspond to the number of reads and the overall alignment percentage, are saved on a new TXT file created on the results directory, the mapping values file. This way, when all samples are processed, the mapping values file will have the mapping information for every sample. The mapping file is removed after the relevant information is passed to the mapping values file.
-
-After this, the sample_processing script is done, so the chipsahoy pipeline continues to be run. Only when every sample is processed, the sample processing loop that runs the sample_processing bash script finishes. It is important to remember that, by this point, we’re still in the results directory.
-
-We recommend that the user visualises the alignment made on an interactive tool, like Integrative Genomic Viewer (IGV).
-
-### f. Peaks calling
-
-Even though the reads are aligned on the genome, the user cannot know, only with that information, which are the possible target genes for the transcription factors analysed. To check if the result of the mapping is significant, a statistical analysis is made. Using a contrast of hypothesis, the error probability can be determined. 
-
-To call peaks, a sliding window goes through the genome, counting reads on the window defined, for chips and control samples. Then, the reads of each pair of samples are compared, and the statistical test previously explained, determines a fold-change and a p-value. These values represent the difference in the number of reads for the chip and control sample, and how significant is that difference, respectively. It is important to know that, since this process is a multiple testing, a correction of the p-value, called q-value or FDR, needs to be made. Therefore, peaks are regions in which there is a significant difference of reads between the chip and the control samples.
-
-To guarantee that this code is run for every chip and control samples, a double while loop that goes through every chip and every control sample was configured. To call peaks, the function macs2 with the command callpeak is used. The arguments passed to this function are the following:
-
--t   path to the BAM files for the replicas of the chip sample.
-
--c   path to the BAM files for the replicas of the control sample.
-
--f   BAM format, which is the format of the input files.
-
--n   name of the output file, which is the experiment_name_X_Y, being X and Y the number of chip and control samples, respectively, that are being compared.
-
--- outdir to specify the output directory, which is still the results directory.
-
-After the peaks calling, the output files can be found on the results directory. Of all the files created, the ones of special interest in this work are the .narrowPeak and .bed files, with the significant narrow peaks and summits, respectively.
-
-We recommend that the user visualises on an interactive tool, like IGV, the result of the alignment, and also the peaks called.
-
-### g. Regulome determination and Gene Set Enrichment Analysis
-
-After the peaks are called, for the next steps the pipeline needs to run an R script for every narrowPeak and bed file. Before that, these files are stored in two arrays, NARROWPEAK and SUMMITSBED, respectively.
-
-This way, a while loop goes through every file with results, narrow peaks and summits, and runs the R script created to determine the regulome and make the Gene Set Enrichment Analysis. The script if run with the command Rscript, and the arguments passed, in addition to the pair of peaks file, the parameters defined in the parameters text up1, down1, up2, down2, pvalueCutoffgo, pvalueCutoffkegg an identification for every sample, which is  experiment_name_X_Y, being X and Y the number of chip and control samples, respectively, that were compared.
-
-The first thing that the R script, called peaks_script.R does, is to store the arguments passed on the bash script on variables. Then, the script loads the necessary packages for the analysis. To know the packages needed, go to section 2. 
-
-Then, the script gets the genetic information from the organism, in this case Arabidopsis thaliana, and gets the universe, in this case, the genes id of the whole organism. After this, the script reads the different files, and, for the narrow peaks, plots the peak coverage.
-
-The next step is to define the promoters for narrow peaks and summits, using the base pair up and downstream given in the parameters file, and to annotate those peaks. A plot of the annotation is generated for each peaks file.
-
-Then, the annotation is converted to a data frame. Now, from each data frame, the regulome is determined, simply by extracting the elements whose annotation is “Promoter”. The genes ID of those elements is the regulome, which the pipeline safes on a TXT file.
-
-Once the regulome is determined, the next step is the Gene Set Enrichment Analysis (GSEA). Two GSEAs are made by this script, one using GO terms, and another one using KEGG Pathways. The functions for both GSEA are similar, enrichGO and enrichKEGG, respectively.
-
-The enrichGO function receives the regulome, the universe defined, an OrgDb object -in this case, that for Arabidopsis thaliana-, the ontology terms to analyse -all, in this case-, the p-value cutoff and the keyType -in this case, TAIR-. 
-
-The enrichKEGG receives the regulome, the universe defined, the organism code -in this case “ath”- and the p-value cutoff.
-
-For both GSEA, bar plots, dot plots and gene-concept networks are generated.
-
-After this, the Rscript is over, and chipsahoy script continues running.
-
-### h. Binding motifs search
-
-The next step is to determine target sequences for the transcription factors studied, using the summits file. To make this, the toolbox HOMER, that analyses sequencing data, is used. To make this for every summits file, a while loop was programmed. This loop runs the function findMotifsGenome.pl, that receives the summits file, the path from the results directory to the genome.fa file in genome directory, an output directory name findmotifs_X, being X the sample analysed, a length of the target sequence to determine -8, in this case-, and a size, which defines the position around the summits in which to search the binding motifs. 
-
-The more relevant results of this function are two HTML, one with already known binding motifs (known.results.html) and motifs found de novo by homer (homer.results.html).
-
+> - **experiment_name.** The name the folder that contains everything.
+> - **number_replicas.** The number of replicates.
+> - **path_genome.** The path to access the genome file of the organism; e.g. /home/user/user_genomes/organism_genome.fa
+> - **path_annotation.** The path to access the genome's annotation file of the organism; e.g. /home/user/user_annotations/organism_anno.gtf
+> - **path_sample_chip_i.** (i= 1,2,3...) The path to access the ChIP-seq data of each sample; e.g. /home/user/user_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+> - **path_sample_input_i** (i= 1,2,3...) The path to access the input data of each sample; e.g. /home/user/user_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+> - **universe_chromosomes.**. The ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In order to use all the available chromosomes, write "all".
+> - **p_value_cutoff_go.** The p-value threshold for GO terms enrichment statistical analysis.
+> - **p_value_cutoff_kegg.** The p-value threshold for KEGG pathways enrichment statistical analysis.
+> - **type_of_peak.* The shape of the peaks. Two posible values: 1 (narrow peaks; for TF binding) or 2 (broad peaks; for histone modifications).
+> - **single_or_paired**. The type of reads of the files. The value of this parameter must be either 1 (single end reads) or 2 (paired end reads). For this pipeline, only single-end reads can be run.
+> - **tss_upstream.** The upstream number of base pairs that defines the TSS region. Only positive values.
+> - **tss_downstream.** The downstream number of bases pairs that defines the TSS region. Only positive values.
+
+
+## 5.Output
+- genome: contains the reference genome used for the analysis and its index.
+ - annotation: contains the reference annotation used for the analysis.
+ - samples: contains several directories, one for each replic. Each one of these are divided in other three: chip, input and replica_results. The chip and input directories contain the sorted bam files for the correesponding sample, the results of fastqc quality analysis for that sample and a stats.txt file with the bowtie2 alignment stats. The replica_results directory contains the peaks files generated by macs2 for the replica. It should be noted that if only one replica is used, the narrowPeak or broadPeak file is moved to the results file and cannot be find in this directory.
+ - results: contains all the results for the analysis. First of all, it contains the merged peaks files of the replicas. These files are generated by iteration and there will be n-1 files for n replicas. If there are errors in one of the replicas (as indicated in the fastqc output or the bowtie2 alignment stats), just erase the proper merged files and use bedtools to intersect the previous merged file with the peak files of the rest of the replicas and execute the R script. If no errors are detected, analysis will be performed with the last merged file (higher number). Also, motifs detected by HOMER can be found in this directory. For general information about the ChIP-seq analysis such as covplot, plotAnnopie of the distribution of the typer of DNA regions which suffer the modification or the plotDistToTSS (distribution of peaks around TSS regions) see the Rplots.pdf file. Genes predicted to be affected by the TF binding or histone modification are listed in regulome.txt file. As for the GO terms analysis, chiptube calculates the GO terms enrichment for biological processes (bp), molecular functions (mf) and cellular components (cc), and all the information is saved as tables in tsv format, as well as in plots that are represented in a pdf file for each one of the three categories (goplots, barplots, dotplots and cnetplots). Finally, as for GO terms enrichment, KEEG pathways enrichment information is saved as a table in a tsv file, and the proper pathways are shown as png files in this directory, while the xml and png (without marked enzymes) files are collected in kegg_images directory.
+ 
 ## 7. Case study
 
 As an example, the repressor effect of Arabidopsis thaliana PRR5 protein, as a regulating factor of circadian clock expression, is studied. Circadian clock of plants regulates a wide range of processes, such as hypocotyl elongation before sunrise, or cold-stress response proteins. This way, the circadian clock allows the expression of different genes in different day moments, regulating their expression temporarily. 
