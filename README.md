@@ -40,10 +40,9 @@ This pipeline requires the installation of:
 ## 3. Summary
 
 1. **chipipe.sh**
-   * Read parameters.
-   * Prepare workspace.
-   * Copy the data.
-   * Create a genome index ([`bowtie2-build`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
+   * Load and read parameters.
+   * Generation of workspace.
+   * Creation of a genome index ([`bowtie2-build`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
    * Submit via SGE chip_sample_processing.sh and control_sample_processing for each sample.
  2. **chip_sample_processing.sh** and **control_sample_processing.sh** 
     * Quality control ([`fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)).
