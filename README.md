@@ -89,7 +89,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 > - **universe_chromosomes.**. The ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In order to use all the available chromosomes, write "all".
 > - **p_value_cutoff_go.** The p-value threshold for GO terms enrichment statistical analysis.
 > - **p_value_cutoff_kegg.** The p-value threshold for KEGG pathways enrichment statistical analysis.
-> - **type_of_peak.* The shape of the peaks. Two posible values: 1 (narrow peaks; for TF binding) or 2 (broad peaks; for histone modifications).
+> - **type_of_peak.** The shape of the peaks. Two posible values: 1 (narrow peaks; for TF binding) or 2 (broad peaks; for histone modifications).
 > - **single_or_paired**. The type of reads of the files. The value of this parameter must be either 1 (single end reads) or 2 (paired end reads). For this pipeline, only single-end reads can be run.
 > - **tss_upstream.** The upstream number of base pairs that defines the TSS region. Only positive values.
 > - **tss_downstream.** The downstream number of bases pairs that defines the TSS region. Only positive values.
