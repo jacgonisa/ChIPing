@@ -1,29 +1,67 @@
 # ChIPing: A pipeline for ChIP-seq data analysis 
 
 Authors: 
-González Isa, Jacob
-López Asensio, Pilar
-Pérez López, José Ignacio
+* González Isa, Jacob
+* López Asensio, Pilar
+* Pérez López, José Ignacio
 
 ### Course: Bioinformatics and Genomic Analysis
 ### BSc in Biochemistry
 ### University of Seville
  
 
-## 1. Summary
+## 1. Introduction 
 
-This repository is made up of two bash scripts (chipsahoy and sample_processing) and one R script (peaks_script.R), to analyse unlimited ChIP-seq samples of transcription factors from Arabidopsis thaliana, comparing all of them with the same control samples. Actually, by running the main script, chipsahoy, the whole analysis is done, since this script is programmed to run the other two scripts when required.
+This repository consists of three bash scripts (**chipipe.sh**, **sample_proc.sh** and ) and one R script (**chip_bash.R**). It runs in Unix environment.
 
-This way, with only one command, the whole ChIP-seq samples analysis is done and organized in intuitive directories. Briefly, this analysis consists of the quality control of the samples, the reads mapping, the peaks calling, the regulome determination and Gene Set Enrichment Analysis, and finaly, binding motifs determination.
-
-At the end of this README, a case study is presented.
+ChIPing aims at analysing any given ChIP-seq samples of Transcription Factors (TFs) in *Arabidopsis thaliana* model organism. Each **sample** has a ChIP and control/input sequencing data. The number of samples is users' choice! 
 
 
 ## 2. Dependencies
 
-Tools needed to run the bash scripts: bowtie2, fastqc, samtools , macs2 and homer. These tools can be installed running the following command: sudo apt-get install <tool_name>
+This pipeline requires the installation of:
 
-Packages needed to run the R script: clusterProlifer, ChipSeeker, ggplot2, TxDb.Athaliana.Biomart.plantsmart28 and org.At.tair.db. All packages, except ggplot2, can be downloaded from Bioconductor, running the following command in R: install(“<package_name>”). For ggplot2, this package can be downloaded from the CRAN, running the following command in R: install.packages(“ggplot2”). 
+  * [`Slurm cluster management`](https://slurm.schedmd.com/)
+  * [`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+  * [`Bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml)
+  * [`SAMTOOLS`](https://sourceforge.net/projects/samtools/files/samtools/)
+  * [`MACS2`](https://github.com/macs3-project/MACS)
+  * [`R`](https://www.r-project.org), with the following packages:
+    - [`BiocManager`](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)
+    - [`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)
+    - [`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html)
+    - [`DO.db`](http://bioconductor.org/packages/release/data/annotation/html/DO.db.html)
+    - [`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html)
+    - [`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)
+    - [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)
+  * [`Homer`](http://homer.ucsd.edu/homer/download.html)
+
+
+## 3. Summary
+
+## 4. Usage
+
+```sh
+bash chipipe.sh <params_file.txt>
+```
+
+The main script is **chipipe.sh**. The input is a file containing some parameters to be specified. An example of the model file **params_file.txt** is found ChIPing/my_test/params_file.txt
+
+> - **installation_directory.** Where you install the package.
+> - **working_directory.** Where your analysis are saved.
+> - **experiment_name.*" -> the name the folders and the results of your analysis will bear
+ - "number_replicas:" -> the number of replicas you have conducted for your study, e.g. 3.
+ - "path_genome:" -> the path that has to be followed to access the genome of the organism you have done your experiment with; e.g. /home/lola_flores/my_genomes/atha_genome.fa
+ - "path_annotation:" -> the path that has to be followed to access the annotations for the genome of the organism you have done your experiment with; e.g. /home/lola_flores/my_annotations/atha_anno.gtf
+ - "path_sample_chip_i:" (with i being a natural number) -> the path that has to be followed to access the ChIP-seq data of the sample no. i you have processed; e.g. /home/lola_flores/my_chip_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+ - "path_sample_input_i" (with i being a natural number) -> the path that has to be followed to access the input data relating to the sample no. i you have processed; e.g. /home/lola_flores/my_chip_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+ - "universe_chromosomes:" -> the ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In case you want to use all the available chromosomes, write "all".
+ - "p_value_cutoff_go:" -> the p-value threshold for GO terms enrichment statistical analysis. e.g. 0.05
+ - "p_value_cutoff_kegg:" -> the p-value threshold for kegg pathways enrichment statistical analysis. e.g. 0.05
+ - "type_of_peak:" -> the shape of the peaks you are looking for. The value of this parameter must be either 1 (narrow peaks, used for TF binding) or 2 (broad peaks, used for histone modifications).
+ - "single_or_paired:" -> the type of reads of the files. The value of this parameter must be either 1 (single end reads) or 2 (paired end reads).
+ - "tss_upstream:" ->  the upstream number of bases for defining the TSS region.
+ - "tss_downstream:" -> the downstream number of bases for defining the TSS region. Must be positive. This way, setting the TSS region in (-1000,1000) would be done writing a 1000 in both tss_upstream and tss_downstream parameters.
 
 ## 3. Input
 
