@@ -124,12 +124,12 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 
  * **results:**
 
-    ##### Motifs finding
-     Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). In this pipeline is used [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform *de novo* motif discovery as well as check the enrichment of known motifs.
+##### Motifs finding
 
+Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). The one used in this pipeline is [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform de novo motif discovery as well as check the enrichment of known motifs.
 
 <details markdown="1">
-    <summary>Output files</summary>
+    <summary>Motifs Output files</summary>
     
 `knownResults/ directory`: contains files for the knownResults.html webpage, including known<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.   
 
@@ -171,7 +171,19 @@ The regulome is defined as the global set of genes regulated by a transcription 
  
 </details>
 
-   ##### GO terms Analysis:
+   ##### GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
+
+GO terms enrichment are calculated for biological process (bp). If it is interesting for your study calculate GO terms for molecular function or cellular components you should modify the R script (*chip.R*) by changing the enrichGO argument to the desired parameter.
+
+KEGG analysis is very similar to that perform in GO terms, but at a higher functional level, of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
+
+<details markdown="1">
+    <summary>GO and KEGG Output</summary>
+    `kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
+    `go_terms.tsv`:Table separated by tab with the results of the GO terms 
+    `plots_go_bp.pdf`: Plots repressenting GO terms.
+ 
+</details>
 
 
  As for the GO terms analysis, chiptube calculates the GO terms enrichment for biological processes (bp), molecular functions (mf) and cellular components (cc), and all the information is saved as tables in tsv format, as well as in plots that are represented in a pdf file for each one of the three categories (goplots, barplots, dotplots and cnetplots). Finally, as for GO terms enrichment, KEEG pathways enrichment information is saved as a table in a tsv file, and the proper pathways are shown as png files in this directory, while the xml and png (without marked enzymes) files are collected in kegg_images directory.
