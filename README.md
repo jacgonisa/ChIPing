@@ -12,7 +12,7 @@ Authors:
 
 ## 1. Introduction 
 
-This repository consists of three bash scripts (**chipipe.sh**, **sample_proc.sh** and ) and one R script (**chip_bash.R**). It runs in Unix environment.
+This repository consists of three bash scripts (**chipipe.sh**, **sample_proc.sh** and **peak_call.sh**) and one R script (**chip_bash.R**). It runs in Unix environment.
 
 ChIPing aims at analysing any given ChIP-seq samples of Transcription Factors (TFs) in *Arabidopsis thaliana* model organism. Each **sample** has a ChIP and control/input sequencing data. The number of samples is users' choice! 
 
@@ -43,33 +43,28 @@ This pipeline requires the installation of:
    * Load and read parameters.
    * Generation of workspace.
    * Creation of a genome index ([`bowtie2-build`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
-   * Submit via SGE chip_sample_processing.sh and control_sample_processing for each sample.
- 2. **chip_sample_processing.sh** and **control_sample_processing.sh** 
+   * Processing individual samples with next script:
+ 2. **sample_proc.sh**
     * Quality control ([`fastqc`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)).
-    * Map to reference genome ([`bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
-    * Generate sorted bam file ([`samtools`](http://www.htslib.org)).
-    * Submit via SGE peak_determination.sh for each sample.
- 3. **peak_determination.sh**
-    * Peak determination ([`masc2 callpeak`](https://github.com/macs3-project/MACS)).
-    * Peak annotation by submitting *target_genes.R* for each sample.
-    * Homer-motifs-finding ([`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)).
-    * Overlapping target genes for replicates, GO and KEGG enrichment by submitting *exp_analysis.R* for each experiment.
- 4. **target_genes.R**
-    * Install packages if neccesary ([`BiocManager`](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)).
-    * Read arguments.
-    * Read peak file ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
+    * Mapping to the reference genome ([`bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
+    * Generation of sorted .bam file ([`samtools`](http://www.htslib.org)).
+    * Peak calling ([`masc2 callpeak`](https://github.com/macs3-project/MACS)).
+     When finished for each replicate:
+ 3. **peak_call.sh**
+    * Intersection of replicates' results.
+    * Finding motifs ([`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)).
+    * Visualization and statistics with next script:
+ 4. **chip_bash.R**
+    * Load parameters.
+    * Reading of peak file ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
     * Definition of promoter region ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
+    * Peak distribution along the genome
     * Peak annotation ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html),[`DO.db`](http://bioconductor.org/packages/release/data/annotation/html/DO.db.html)).
-    * Extract target genes from annotation.
- 5. **exp_analysis.R**
-    * Install packages if neccesary ([`BiocManager`](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)).
-    * Read arguments.
-    * Read target gene files for each replicate.
-    * Extraction of overlapping genes in all replicates ([`VennDiagram`](https://cran.r-project.org/web/packages/VennDiagram/VennDiagram.pdf)).
-    * Gene ontology enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html)).
-    * KEGG pathway enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html),[`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)).
+    * Selection of peaks within promoters and **regulome** identification.
+    * GO terms enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html)).
+    * KEGG terms enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html),[`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)).
     
-    
+ 
 ## 4. Usage
 
 ```sh
