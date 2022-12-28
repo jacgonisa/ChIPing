@@ -124,7 +124,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 
  * **results:**
 
-##### Motifs finding
+#### Motifs finding
 
 Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). The one used in this pipeline is [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform de novo motif discovery as well as check the enrichment of known motifs.
 
@@ -151,7 +151,7 @@ Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html
 
 </details>
 
-   ##### ChIP-seq Analysis information:
+   #### ChIP-seq Analysis information:
     
 <details markdown="1">
     <summary>R Script Output files</summary>
@@ -160,7 +160,7 @@ Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html
  
 </details>
 
-   ##### Regulome:
+   #### Regulome:
 
 The regulome is defined as the global set of genes regulated by a transcription factor under certain circumstances, and it can be inferred from the cistrome, the set of genetic positions where the transcription factor binds under those certain conditions, by the association of ChipSeq peaks to target genes via the NDG criteria
 
@@ -171,7 +171,7 @@ The regulome is defined as the global set of genes regulated by a transcription 
  
 </details>
 
-   ##### GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
+   #### GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
 
 GO terms enrichment are calculated for biological process (bp). If it is interesting for your study calculate GO terms for molecular function or cellular components you should modify the R script (*chip.R*) by changing the enrichGO argument to the desired parameter.
 
