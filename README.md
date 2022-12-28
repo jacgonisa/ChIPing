@@ -1,7 +1,7 @@
 # ChIPing: A pipeline for ChIP-seq data analysis 
 
 Authors: 
-* González Isa, Jacob
+* González Isa, Jacob (jacobgisa17@gmail.com)
 * López Asensio, Pilar
 * Pérez López, José Ignacio
 
@@ -49,7 +49,7 @@ This pipeline requires the installation of:
     * Mapping to the reference genome ([`bowtie2`](http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)).
     * Generation of sorted .bam file ([`samtools`](http://www.htslib.org)).
     * Peak calling ([`masc2 callpeak`](https://github.com/macs3-project/MACS)).
-     When finished for each replicate:
+     When finished for each replicate, next script:
  3. **peak_call.sh**
     * Intersection of replicates' results.
     * Finding motifs ([`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html)).
