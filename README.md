@@ -120,7 +120,10 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
         > * **i_summits.bed:** file in BED format containing the peak summits locations for every peak. T This file is needed to find the motifs at the binding sites. This file will only be generated if running in narrow peak mode.
         > * **i_model.r**: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in the results directory.
         > * **i_peaks.xls:** a tabular file which contains information about called peaks with useful information such as chromosome name, start position of peakend among other relevant details.
- * **results**
+
+
+ * **results:**
+
     ##### Motifs finding
      Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). In this pipeline is used [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform *de novo* motif discovery as well as check the enrichment of known motifs.
 
@@ -148,7 +151,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 
 </details>
 
-##### ChIP-seq Analysis information:
+   ##### ChIP-seq Analysis information:
     
 <details markdown="1">
     <summary>R Script Output files</summary>
@@ -157,7 +160,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
  
 </details>
 
-##### Regulome:
+   ##### Regulome:
 
 The regulome is defined as the global set of genes regulated by a transcription factor under certain circumstances, and it can be inferred from the cistrome, the set of genetic positions where the transcription factor binds under those certain conditions, by the association of ChipSeq peaks to target genes via the NDG criteria
 
@@ -168,7 +171,7 @@ The regulome is defined as the global set of genes regulated by a transcription 
  
 </details>
 
-##### GO terms Analysis:
+   ##### GO terms Analysis:
 
 
  As for the GO terms analysis, chiptube calculates the GO terms enrichment for biological processes (bp), molecular functions (mf) and cellular components (cc), and all the information is saved as tables in tsv format, as well as in plots that are represented in a pdf file for each one of the three categories (goplots, barplots, dotplots and cnetplots). Finally, as for GO terms enrichment, KEEG pathways enrichment information is saved as a table in a tsv file, and the proper pathways are shown as png files in this directory, while the xml and png (without marked enzymes) files are collected in kegg_images directory.
