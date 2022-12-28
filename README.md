@@ -1,7 +1,8 @@
 # ChIPing: A pipeline for ChIP-seq data analysis 
 
 Authors: 
-* González Isa, Jacob (jacobgisa17@gmail.com)
+* González Isa, Jacob (jacobgisa17@gmail.com) [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40JacobGIsa)](https://twitter.com/bukotsunikki)
+
 * López Asensio, Pilar
 * Pérez López, José Ignacio
 
