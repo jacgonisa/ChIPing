@@ -59,7 +59,7 @@ This pipeline requires the installation of:
     * Load parameters.
     * Reading of peak file ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
     * Definition of promoter region ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html)).
-    * Peak distribution along the genome
+    * Peak distribution along the genome.
     * Peak annotation ([`ChIPseeker`](https://bioconductor.org/packages/release/bioc/html/ChIPseeker.html),[`DO.db`](http://bioconductor.org/packages/release/data/annotation/html/DO.db.html)).
     * Selection of peaks within promoters and **regulome** identification.
     * GO terms enrichment ([`clusterProfiler`](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html),[`TxDb.Athaliana.BioMart.plantsmart28`](https://bioconductor.org/packages/release/data/annotation/html/TxDb.Athaliana.BioMart.plantsmart28.html),[`org.At.tair.db`](https://bioconductor.org/packages/release/data/annotation/html/org.At.tair.db.html)).
@@ -92,79 +92,69 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 
 
 ## 5.Output
-### Working Directory
- * **genome:**
-   - Reference Genome 
+### Working Directory 
+ * **`experiment_name/genome`:**
+   - Reference Genome (`/genome.fa`) 
    - Index of Reference Genome
- * **annotation:**
-   - Reference Annotation
- * **samples:**
-   - **Sample_i:**
-  
-      - **chip**: 
-        > * **BAM file:** compressed binary version of a SAM file.
-        > * **FastQC:** This html file reports the quality metrics of the reads. It provides information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among other issues.
-        > * **stats.txt:** This file contains **bowtie2** alignment stats.
+ * **`experiment_name/annotation`:**
+   - Reference Annotation (`/annotation.gtf`) 
+ * **`experiment_name/samples/replica_i`:**
  
-      - **input:**
-        > * **BAM file:** compressed binary version of a SAM file.
-        > * **FastQC:** This html file reports the quality metrics of the reads. It provides information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among other issues.
-        > * **stats.txt:** This file contains **bowtie2** alignment stats.
+    - **`/chip`**: 
+        > * `/chip_i.bam`: compressed binary version of a SAM file.
+        > * `/sample_chip_i_fastqc.html`: the quality metrics of the reads. Information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among others.
  
-      - **replica_results:** 
-        > * **i_peaks.narrowPeak:** peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be a i_peaks.broadPeak.
-        > * **i_summits.bed:** file in BED format containing the peak summits locations for every peak. T This file is needed to find the motifs at the binding sites. This file will only be generated if running in narrow peak mode.
-        > * **i_model.r**: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in the results directory.
-        > * **i_peaks.xls:** a tabular file which contains information about called peaks with useful information such as chromosome name, start position of peakend among other relevant details.
+    - **`/input`:**
+        > * `/input_i.bam`.
+        > * `/sample_input_i_fastqc.html`.
+ 
+     - **`/replica_results`:** 
+        > * `/i_peaks.narrowPeak`: peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be a i_peaks.broadPeak.
+        > * `/i_summits.bed`: peak summits locations for every peak. File needed to find the motifs at the binding sites. It will only be generated if running in .narrowPeak mode.
+        > * `/i_model.r`: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in  /results directory.
+        > * `/i_peaks.xls`: a tabular file with information about called peaks.
 
 
- * **results:**
+ * **`experiment_name/results`:**
 
-#### Motifs finding
+   - Motifs finding
 
-Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). The one used in this pipeline is [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform de novo motif discovery as well as check the enrichment of known motifs.
-    
- > * knownResults/ directory`: contains files for the knownResults.html webpage, including known<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.   
+    Motif analysis with [`HOMER`](http://homer.ucsd.edu/homer/index.html). By default, it performs de novo motif discovery as well as checking the enrichment of known motifs.
+     > * `/knownResults.html`: formatted output of known motif finding.
+     > * `/knownResults/ `: directory with known<#>.motif and known<#>.logo.svg for each motif.
+     > * `/knownResults.txt`: statistics about known motif enrichment. By default, it is opened in Text.editor. For optimized view, open manually in Excel.
 
- > * `homerResults/ directory`: contains files for the homerResults.html webpage, including motif<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.
-    
- > * `homerMotifs.motifs<motif_length>`: output files from the de novo motif finding, separated by motif length, and represent separate runs of the algorithm.
+     > * `/homerResults.html`: formatted output of de novo motif finding.
+     > * `/homerResults/ `: directory with homer<#>.motif and homer<#>.logo.svg for each motif.
+     > * `/homerMotifs.motifs<motif_length>`: de novo motif finding, separated by motif length, and representing separate runs of the algorithm.
+     > * `/homerMotifs.all.motifs`: all the homerMotifs.motifs<motif_length> files.
 
-> * `homerMotifs.all.motifs`: file composed of all the homerMotifs.motifs<motif_length> files.
-
-> * `knownResults.html`: formatted output of known motif finding.
-
-> * `knownResults.txt`: text file containing statistics about known motif enrichment. By default is opened in Text.editor. For optimized view, open manually in Excel.
-
-> * `homerResults.html`: formatted output of de novo motif finding.
-
-> * `seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
-
-> * `motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
+     > * `/seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
+     > * `s/motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
 
 
-   #### ChIP-seq Analysis information:
+    - ChIP-seq Analysis information:
 
-> * `Rplots.pdf`: This file contains graphical representations: Histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) as well as a plotDistToTSS which shows the distribution of genomic loci relative to TSS.
+     > * `/Rplots.pdf`: every graphical representation. This is, histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) and a plotDistToTSS, which shows the distribution of genomic loci relative to TSS.
  
 
-   #### Regulome:
+   - Regulome:
 
 The regulome is defined as the global set of genes regulated by a transcription factor under certain circumstances, and it can be inferred from the cistrome, the set of genetic positions where the transcription factor binds under those certain conditions, by the association of ChipSeq peaks to target genes via the NDG criteria
 
-> * `Regulome.txt`: File with a list of the genes predicted to be affected by the TF binding or histone modification in study.
+    > * `/regulome.txt`: list of the genes predicted to be regulated by the TF (or histone modification).
 
 
-   #### GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
+   - GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
 
-GO terms enrichment are calculated for biological process (bp). If it is interesting for your study calculate GO terms for molecular function or cellular components you should modify the R script (*chip.R*) by changing the enrichGO argument to the desired parameter.
+GO terms enrichment are calculated for biological process (BP). For molecular function or cellular components analysis, customize the R script (*chip.R*) by changing the enrichGO function argument to the desired parameter.
 
-KEGG analysis is very similar to that perform in GO terms, but at a higher functional level, of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
+KEGG analysis is at the level of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
 
-> * `kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
-> * `go_terms.tsv`:Table separated by tab with the results of the GO terms 
-> * `plots_go_bp.pdf`: Plots repressenting GO terms.
-> * `kegg_images/ directory`: This directory contains the pathways without marked enzymes in png and xml format generated with `Pathview`. This is a tool set for pathway based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
+    > * `/kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
+    > * `/go_terms.tsv`:Table separated by tab with the results of the GO terms 
+    > * `/plots_go_bp.pdf`: Plots repressenting GO terms.
+    > * `/kegg_images/ `: directory with the pathways without marked enzymes in png and xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)). TooLset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
 
 
 ## 7. Case study
