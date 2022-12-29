@@ -144,14 +144,14 @@ The regulome is defined as the global set of genes regulated by a transcription 
 
    - GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
 
-GO terms enrichment are calculated for biological process (BP). For molecular function or cellular components analysis, customize the R script (*chip.R*) by changing the enrichGO function argument to the desired parameter.
+ GO terms enrichment are calculated for biological process (BP). For molecular function or cellular components analysis, customize the R script (*chip.R*) by changing the enrichGO function argument to the desired parameter.
 
-KEGG analysis is at the level of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
+ KEGG analysis is at the level of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
+ 
        > * `/kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
        > * `/go_terms.tsv`:Table separated by tab with the results of the GO terms 
        > * `/plots_go_bp.pdf`: Plots repressenting GO terms.
        > * `/kegg_images/`: directory with the pathways without marked enzymes in png and xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)). Toolset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
-
 
 ## 7. Case study
 
