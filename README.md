@@ -38,6 +38,7 @@ This pipeline requires the installation of:
   * [`Homer`](http://homer.ucsd.edu/homer/download.html)
 
 Once dependencies have been installed, you might download this repository from GitHub:
+
       ```bash
       git clone https://github.com/jacgonisa/ChIPing.git
       ```
