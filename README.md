@@ -37,9 +37,9 @@ This pipeline requires the installation of:
     - [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)
   * [`Homer`](http://homer.ucsd.edu/homer/download.html)
 
-Once dependencies have been installed, you might download this repository from GitHub:
+Once dependencies have been installed, you might download this repository from GitHub pasting in your command line:
 ```bash
-      git clone https://github.com/jacgonisa/ChIPing.git
+   git clone https://github.com/jacgonisa/ChIPing.git
 ```
 ## 3. Summary
 
