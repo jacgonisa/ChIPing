@@ -73,15 +73,20 @@ bash chipipe.sh <params_file.txt>
 ```
 
 The main script is **chipipe.sh**. The input is a file containing some parameters to be specified. An example of the model file **params_file.txt** is found ChIPing/my_test/params_file.txt
-
-> - **installation_directory.** Where you install the package.
-> - **working_directory.** Where your analysis are saved.
+* General parameters:
 > - **experiment_name.** The name the folder that contains everything.
 > - **number_replicas.** The number of replicates.
+* Directories
+> - **installation_directory.** Where you install the package.
+> - **working_directory.** Where your analysis are saved.
+
+* Paths:
 > - **path_genome.** The path to access the genome file of the organism; e.g. /home/user/user_genomes/organism_genome.fa
 > - **path_annotation.** The path to access the genome's annotation file of the organism; e.g. /home/user/user_annotations/organism_anno.gtf
 > - **path_sample_chip_i.** (i= 1,2,3...) The path to access the ChIP-seq data of each sample; e.g. /home/user/user_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
 > - **path_sample_input_i** (i= 1,2,3...) The path to access the input data of each sample; e.g. /home/user/user_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+
+* Customisable parameters:
 > - **universe_chromosomes.**. The ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In order to use all the available chromosomes, write "all".
 > - **p_value_cutoff_go.** The p-value threshold for GO terms enrichment statistical analysis.
 > - **p_value_cutoff_kegg.** The p-value threshold for KEGG pathways enrichment statistical analysis.
