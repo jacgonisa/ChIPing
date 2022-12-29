@@ -120,29 +120,27 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
    - Motifs finding
 
     Motif analysis with [`HOMER`](http://homer.ucsd.edu/homer/index.html). By default, it performs de novo motif discovery as well as checking the enrichment of known motifs.
-     > * `/knownResults.html`: formatted output of known motif finding.
-     > * `/knownResults/ `: directory with known<#>.motif and known<#>.logo.svg for each motif.
-     > * `/knownResults.txt`: statistics about known motif enrichment. By default, it is opened in Text.editor. For optimized view, open manually in Excel.
+       > * `/knownResults.html`: formatted output of known motif finding.
+       > * `/knownResults/ `: directory with known<#>.motif and known<#>.logo.svg for each motif.
+       > * `/knownResults.txt`: statistics about known motif enrichment. By default, it is opened in Text.editor. For optimized view, open manually in Excel.
 
-     > * `/homerResults.html`: formatted output of de novo motif finding.
-     > * `/homerResults/ `: directory with homer<#>.motif and homer<#>.logo.svg for each motif.
-     > * `/homerMotifs.motifs<motif_length>`: de novo motif finding, separated by motif length, and representing separate runs of the algorithm.
-     > * `/homerMotifs.all.motifs`: all the homerMotifs.motifs<motif_length> files.
+       > * `/homerResults.html`: formatted output of de novo motif finding.
+       > * `/homerResults/ `: directory with homer<#>.motif and homer<#>.logo.svg for each motif.
+       > * `/homerMotifs.motifs<motif_length>`: de novo motif finding, separated by motif length, and representing separate runs of the algorithm.
+       > * `/homerMotifs.all.motifs`: all the homerMotifs.motifs<motif_length> files.
 
-     > * `/seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
-     > * `s/motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
+       > * `/seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
+       > * `s/motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
 
 
     - ChIP-seq Analysis information:
-
-     > * `/Rplots.pdf`: every graphical representation. This is, histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) and a plotDistToTSS, which shows the distribution of genomic loci relative to TSS.
+       > * `/Rplots.pdf`: every graphical representation. This is, histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) and a plotDistToTSS, which shows the distribution of genomic loci relative to TSS.
  
 
    - Regulome:
 
 The regulome is defined as the global set of genes regulated by a transcription factor under certain circumstances, and it can be inferred from the cistrome, the set of genetic positions where the transcription factor binds under those certain conditions, by the association of ChipSeq peaks to target genes via the NDG criteria
-
-    > * `/regulome.txt`: list of the genes predicted to be regulated by the TF (or histone modification).
+       > * `/regulome.txt`: list of the genes predicted to be regulated by the TF (or histone modification).
 
 
    - GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
@@ -150,11 +148,10 @@ The regulome is defined as the global set of genes regulated by a transcription 
 GO terms enrichment are calculated for biological process (BP). For molecular function or cellular components analysis, customize the R script (*chip.R*) by changing the enrichGO function argument to the desired parameter.
 
 KEGG analysis is at the level of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
-
-    > * `/kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
-    > * `/go_terms.tsv`:Table separated by tab with the results of the GO terms 
-    > * `/plots_go_bp.pdf`: Plots repressenting GO terms.
-    > * `/kegg_images/ `: directory with the pathways without marked enzymes in png and xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)). TooLset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
+       > * `/kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
+       > * `/go_terms.tsv`:Table separated by tab with the results of the GO terms 
+       > * `/plots_go_bp.pdf`: Plots repressenting GO terms.
+       > * `/kegg_images/`: directory with the pathways without marked enzymes in png and xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)). TooLset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
 
 
 ## 7. Case study
