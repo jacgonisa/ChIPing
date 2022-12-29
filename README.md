@@ -18,7 +18,7 @@ This repository consists of three bash scripts (**chipipe.sh**, **sample_proc.sh
 ChIPing aims at analysing any given ChIP-seq samples of Transcription Factors (TFs) in *Arabidopsis thaliana* model organism. Each **sample** has a ChIP and control/input sequencing data. The number of samples is users' choice! 
 
 
-## 2. Dependencies
+## 2. Dependencies and installation
 
 This pipeline requires the installation of:
 
@@ -37,7 +37,10 @@ This pipeline requires the installation of:
     - [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)
   * [`Homer`](http://homer.ucsd.edu/homer/download.html)
 
-
+Once dependencies have been installed, you might download this repository from GitHub:
+      ```bash
+      git clone https://github.com/jacgonisa/ChIPing.git
+      ```
 ## 3. Summary
 
 1. **chipipe.sh**
@@ -76,7 +79,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 * General parameters:
 > - **experiment_name.** The name the folder that contains everything.
 > - **number_replicas.** The number of replicates.
-* Directories
+* Directories:
 > - **installation_directory.** Where you install the package.
 > - **working_directory.** Where your analysis are saved.
 
