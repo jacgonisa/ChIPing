@@ -39,7 +39,7 @@ This pipeline requires the installation of:
 
 Once dependencies have been installed, you might download this repository from GitHub pasting in your command line:
 ```bash
-   git clone https://github.com/jacgonisa/ChIPing.git
+git clone https://github.com/jacgonisa/ChIPing.git
 ```
 ## 3. Summary
 
