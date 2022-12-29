@@ -123,49 +123,37 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 #### Motifs finding
 
 Motif analysis carried out with [`HOMER`](http://homer.ucsd.edu/homer/index.html). The one used in this pipeline is [`findMotifsGenome.pl`](http://homer.ucsd.edu/homer/ngs/peakMotifs.html), which manage all the steps for discovering motifs in genomic regions. By default, this will perform de novo motif discovery as well as check the enrichment of known motifs.
-
-<details markdown="1">
-    <summary>Motifs Output files</summary>
     
-`knownResults/ directory`: contains files for the knownResults.html webpage, including known<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.   
+ > * knownResults/ directory`: contains files for the knownResults.html webpage, including known<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.   
 
-`homerResults/ directory`: contains files for the homerResults.html webpage, including motif<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.
+ > * `homerResults/ directory`: contains files for the homerResults.html webpage, including motif<#>.motif files for use in finding specific instance of each motif as well as an image.svg for each motif.
     
-`homerMotifs.motifs<motif_length>`: output files from the de novo motif finding, separated by motif length, and represent separate runs of the algorithm.
+ > * `homerMotifs.motifs<motif_length>`: output files from the de novo motif finding, separated by motif length, and represent separate runs of the algorithm.
 
-`homerMotifs.all.motifs`: file composed of all the homerMotifs.motifs<motif_length> files.
+> * `homerMotifs.all.motifs`: file composed of all the homerMotifs.motifs<motif_length> files.
 
-`knownResults.html`: formatted output of known motif finding.
+> * `knownResults.html`: formatted output of known motif finding.
 
-`knownResults.txt`: text file containing statistics about known motif enrichment. By default is opened in Text.editor. For optimized view, open manually in Excel.
+> * `knownResults.txt`: text file containing statistics about known motif enrichment. By default is opened in Text.editor. For optimized view, open manually in Excel.
 
-`homerResults.html`: formatted output of de novo motif finding.
+> * `homerResults.html`: formatted output of de novo motif finding.
 
-`seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
+> * `seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
 
-`motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
+> * `motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
 
-</details>
 
    #### ChIP-seq Analysis information:
-    
-<details markdown="1">
-    <summary>R Script Output files</summary>
-    
-    `Rplots.pdf`: This file contains graphical representations: Histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) as well as a plotDistToTSS which shows the distribution of genomic loci relative to TSS.
+
+> * `Rplots.pdf`: This file contains graphical representations: Histogram of ChIP peaks over Chromosome(s), pieplot of the distribution of TF binding regions (or epigenetic mark) as well as a plotDistToTSS which shows the distribution of genomic loci relative to TSS.
  
-</details>
 
    #### Regulome:
 
 The regulome is defined as the global set of genes regulated by a transcription factor under certain circumstances, and it can be inferred from the cistrome, the set of genetic positions where the transcription factor binds under those certain conditions, by the association of ChipSeq peaks to target genes via the NDG criteria
 
-<details markdown="1">
-    <summary>Output files</summary>
-    
-    `Regulome.txt`: File with a list of the genes predicted to be affected by the TF binding or histone modification in study.
- 
-</details>
+> * `Regulome.txt`: File with a list of the genes predicted to be affected by the TF binding or histone modification in study.
+
 
    #### GO terms and Kyoto Encycopedia of Genes and Genomes (KEGG) Analysis:
 
@@ -173,17 +161,12 @@ GO terms enrichment are calculated for biological process (bp). If it is interes
 
 KEGG analysis is very similar to that perform in GO terms, but at a higher functional level, of complete metabolic or regulatory pathways, rather than at the level of specific biological functions or processes.
 
-<details markdown="1">
-    <summary>GO and KEGG Output</summary>
-    `kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
-    `go_terms.tsv`:Table separated by tab with the results of the GO terms 
-    `plots_go_bp.pdf`: Plots repressenting GO terms.
- 
-</details>
+> * `kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis 
+> * `go_terms.tsv`:Table separated by tab with the results of the GO terms 
+> * `plots_go_bp.pdf`: Plots repressenting GO terms.
+> * `kegg_images/ directory`: This directory contains the pathways without marked enzymes in png and xml format generated with `Pathview`. This is a tool set for pathway based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
 
 
- As for the GO terms analysis, chiptube calculates the GO terms enrichment for biological processes (bp), molecular functions (mf) and cellular components (cc), and all the information is saved as tables in tsv format, as well as in plots that are represented in a pdf file for each one of the three categories (goplots, barplots, dotplots and cnetplots). Finally, as for GO terms enrichment, KEEG pathways enrichment information is saved as a table in a tsv file, and the proper pathways are shown as png files in this directory, while the xml and png (without marked enzymes) files are collected in kegg_images directory.
- 
 ## 7. Case study
 
 As an example, the repressor effect of Arabidopsis thaliana PRR5 protein, as a regulating factor of circadian clock expression, is studied. Circadian clock of plants regulates a wide range of processes, such as hypocotyl elongation before sunrise, or cold-stress response proteins. This way, the circadian clock allows the expression of different genes in different day moments, regulating their expression temporarily. 
