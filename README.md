@@ -106,7 +106,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
  * **`experiment_name/samples/replica_i`:**
  
     - **`/chip`**: 
-        > * `/chip_i.bam`: compressed binary version of a SAM file.
+        > * `/chip_i.bam`: compressed binary version of a SAM file (the output of mapping).
         > * `/sample_chip_i_fastqc.html`: the quality metrics of the reads. Information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among others.
  
     - **`/input`:**
