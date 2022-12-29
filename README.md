@@ -153,7 +153,7 @@ KEGG analysis is at the level of complete metabolic or regulatory pathways, rath
      > * `/kegg_terms.tsv`: Table separated by tab with the results of the KEGG analysis  
      > * `/go_terms.tsv`:Table separated by tab with the results of the GO terms 
      > * `/plots_go_bp.pdf`: Plots repressenting GO terms.
-     > * `/kegg_images/`: directory with the pathways without marked enzymes in png and xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html)). Toolset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
+     > * `/kegg_images/`: directory with the biochemical pathways in .png and .xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html). Toolset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
 
 
 ## 7. Case study
