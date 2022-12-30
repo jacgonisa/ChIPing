@@ -86,8 +86,8 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
 * Paths:
 > - **path_genome.** The path to access the genome file of the organism; e.g. /home/user/user_genomes/organism_genome.fa
 > - **path_annotation.** The path to access the genome's annotation file of the organism; e.g. /home/user/user_annotations/organism_anno.gtf
-> - **path_sample_chip_i.** (i= 1,2,3...) The path to access the ChIP-seq data of each sample; e.g. /home/user/user_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
-> - **path_sample_input_i** (i= 1,2,3...) The path to access the input data of each sample; e.g. /home/user/user_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+> - **path_sample_chip_<i>.** (i= 1,2,3...) The path to access the ChIP-seq data of each sample; e.g. /home/user/user_experiment/sample_chip_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
+> - **path_sample_input_<i>** (i= 1,2,3...) The path to access the input data of each sample; e.g. /home/user/user_experiment/sample_input_i.fq.gz. If you have paired end files, you must write both paths in the same row, separated by space.
 
 * Customisable parameters:
 > - **universe_chromosomes.**. The ID(s) of the chromosome(s) of your organism you want to use as your genetic universe for GO and KEGG terms enrichment, separated by commas without spaces; e.g. 2,3. In order to use all the available chromosomes, write "all".
@@ -106,21 +106,21 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
    - Index of Reference Genome
  * **`experiment_name/annotation`:**
    - Reference Annotation (`/annotation.gtf`) 
- * **`experiment_name/samples/replica_i`:**
+ * **`experiment_name/samples/replica_<i>`:**
  
     - **`/chip`**: 
-        > * `/chip_i.bam`: compressed binary version of a SAM file (the output of mapping).
-        > * `/sample_chip_i_fastqc.html`: the quality metrics of the reads. Information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among others.
+        > * `/chip_<i>.bam`: compressed binary version of a SAM file (the output of mapping).
+        > * `/sample_chip_<i>_fastqc.html`: the quality metrics of the reads. Information about the quality score distribution across the reads and useful information such as adapter contamination or other overrepresented sequences, among others.
  
     - **`/input`:**
-        > * `/input_i.bam`.
-        > * `/sample_input_i_fastqc.html`.
+        > * `/input_<i>.bam`.
+        > * `/sample_input_<i>_fastqc.html`.
  
      - **`/replica_results`:** 
-        > * `/i_peaks.narrowPeak`: peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be a i_peaks.broadPeak.
-        > * `/i_summits.bed`: peak summits locations for every peak. File needed to find the motifs at the binding sites. It will only be generated if running in .narrowPeak mode.
-        > * `/i_model.r`: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in  /results directory.
-        > * `/i_peaks.xls`: a tabular file with information about called peaks.
+        > * `/<i>_peaks.narrowPeak`: peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be a <i>_peaks.broadPeak.
+        > * `/<i>_summits.bed`: peak summits locations for every peak. File needed to find the motifs at the binding sites. It will only be generated if running in .narrowPeak mode.
+        > * `/<i>_model.r`: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in  /results directory.
+        > * `/<i>_peaks.xls`: a tabular file with information about called peaks.
 
 
  * **`experiment_name/results`:**
@@ -159,22 +159,26 @@ KEGG analysis is at the level of complete metabolic or regulatory pathways, rath
      > * `/kegg_images/`: directory with the biochemical pathways in .png and .xml format generated with [`pathview`](https://bioconductor.org/packages/release/bioc/html/pathview.html). Toolset for pathway-based data integration and visualization. It maps and renders user data on relevant pathway graphs. 
 
 
-## 7. Case study
+## 6. Case study
 
-As an example, a case of study is PRR5, which acts as a transcripcional repressor in Arabidopsis thaliana, more specifically as a regulating factor of the circadian clock expression. The circadian clock of plants regulates a wide range of processes, including different processes regulated by cell cycle; sucj as hypocotyle elongation before sunrise, or cold-stress response proteins. In this way, PRR5 allows the expression of different genes in different day moments, by the regulation of plants circadian clock.
+We studied a transcription factor known as PRR5 with this repository. PRR5 acts as a transcripcional repressor in *Arabidopsis thaliana*, more specifically as a regulating factor of the circadian clock expression. The circadian clock of plants regulates a wide range of processes, such as hypocotyle elongation before sunrise or cold-stress response. Therefore, PRR5 allows the expression of different genes in throughout the day, by regulating plants' circadian clock.
 
-In the present study, a ChIP-seq analysis to study th main proteins of the PRR family target genes is carried out.
+In our previous study, we performed ChIP-seq analysis to get further insight of how PRR5 acts.
 
-The samples to process are a chip and a control sample (input), with two replics, with reads for the chromosome 1 of Arabidopsis thaliana. The chromosome 1 FASTA file (genome.fa), and the chromosome 1 GTF file (annotation.gtf), reference genome and annotation, respectively, are also given. 
+The experimental design consists of two biological replicates (samples), each one with a ChIP and a control (input). Reads belong to the chromosome 1 of *Arabidopsis thaliana*. The chromosome 1 FASTA file (genome.fa) along its annotation file (annotation.gtf) are found within `my_test` folder. 
 
-Before sample processing (sample_proc.sh), it is necessary to generate a workspace and to build an index. After that, the firt step of the sampke processing is the sample processing control. The result of this analysis can be found in the html of the quality control of the different samples (fastqc.html). This outputs show: basic statistics, per base sequence quality, per base quality scores, per sequence GC content, etc. For both samples, a green check mark appears in all sections, so the quality analysis results are good. 
+Before sample processing, it is necessary to generate a workspace and build an index (starting with **chipipe.sh**). After that, the firt step of the sample processing is the processing control. The result of this analysis can be found in the .html of the quality control of the different samples (`fastqc.html`). This output show basic statistics, per base sequence quality, per base quality scores, per sequence GC content, and so on. For both samples, a green check mark appears in all sections, so the quality analysis was successful. 
 
-Once verified the quality control is good, the reads mapping is done. Bowtie2 is used as a genome aligner, with the advantage that it can achieve fast alignment of millions of reads.
+Once verified the quality of the samples, reads are mapped to the reference genome is done (**sample_proc.sh**). Mapping is successful.
 
-Peak calling (peak_call.sh), the next step in our workflow, is a computational method used to identify areas in the genome that have been enriched with aligned reads as a consequence of performing a ChIP-sequencing experiment. MACS2 peak calling algorithm was used. The output of the total result of the peak calling is at merged_2.narrowPeak. The total number of peaks contained in this file is 902. The number of peaks of each replic is the same as the total, because as an example, replic 1 and replic 2 are identic.
+Peak calling, the next step in our workflow, is a computational method used to identify chromatin regions that have been enriched with aligned reads as a consequence of PRR5 binding ([`Principles of ChIP-seq`](https://www.illumina.com/techniques/sequencing/dna-sequencing/chip-seq.html#:~:text=ChIP%2DSeq%20identifies%20the%20binding,exonuclease%20to%20trim%20unbound%20oligonucleotides).
 
-Then, using the toolbox HOMER, 223 known binding motifs were identified as PRR5 binding motifs (knownResults.html), in addition to 7 PRR5 binding motifs found de novo (homerResults.html).
+The output of the peak calling is `merged_2.narrowPeak`. After merging (**peak_call.sh**), the total number of peaks is 902. The number of peaks of each replic is the same as the total, in this example, replicates 1 and 2 are identical. This means that PRR5 binds to chromatin in 902 loci in chromosome 1.
 
-Finally, a R script (chip_bash.R) was realized. The purpose of this script was to carry out the enrichment of the GO and kegg terms. The GO terms file (go_trms.tsv) confirmed that PRR5 is involved in different processes related with the plants circadian clock like: the response to light stimulus, cold aclimatation or response to cold. The kegg terms file (kegg_terms.tsv) indicates that is involved i plant hormone signal transduction, MAPK signaling pathway of the plan and photosyntesis.
+TFs bind to specific DNA sequences (motifs). In few words, there are TF-associated sequences in the genome. Their analysis is useful to predict the binding of TFs and, consequently, regulatory effects. Aiming at this, we identified 223 known PRR5 binding motifs (`knownResults.html`). Additionally, 7 PRR5 binding motifs were found de novo (`homerResults.html`).
 
-With all this information, it becomes clear that PRR5 regulates different genes that participate in processes related to the circadian clock, like flowering, hypocotyl elongation, and even mediating cold-stress response.
+The final step was submitting the peaks' positions to an R script (**chip_bash**) that gave valuable info about where peaks are located along the genomic regions (promoters, intergenic, etc.) and a list of genes which might be putatively regulated by PRR5 (`regulome.txt`). However, we will not get the full potential of our ChIP-seq data unless we merge our Regulome and Differentially Expressed Genes data (RNA-seq), what would accurately tell which genes are truly regulated by PRR5 and how (up/down- regulation).
+
+The GO terms file (`go_trms.tsv`) confirmed that PRR5 is involved in different processes related to plants circadian's clock. Among them, the response to light stimulus and cold aclimatation are highlighted. The KEGG terms file (`kegg_terms.tsv`) links PRR5 and plant hormone signal transduction, MAPK signaling pathway and plant photosyntesis.
+
+Taken all this together, it falls into place that PRR5 is a main regulator of the circadian clock.
