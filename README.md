@@ -6,9 +6,9 @@ Authors:
 * López Asensio, Pilar (pilarlopezasensio@gmail.com)
 * Pérez López, José Ignacio (naperlopez@gmail.com) [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/nach_per.svg?style=social&label=Follow%20%40nach_per)](https://twitter.com/nach_per)
 
-### Course: Bioinformatics and Genomic Analysis
-### BSc in Biochemistry
-### University of Seville
+#### Course: Bioinformatics and Genomic Analysis
+#### BSc in Biochemistry
+#### University of Seville
  
 
 ## 1. Introduction 
