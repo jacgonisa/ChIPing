@@ -8,7 +8,7 @@ Authors:
 
 #### Course: Bioinformatics and Genomic Analysis
 ### BSc in Biochemistry
-#### ![University of Seville](https://www.ucm.es/al-acmes/file/logo-universidad-sevilla/?ver)
+#### ![University of Seville](https://www.ucm.es/al-acmes/file/logo-universidad-sevilla/?ver = 100x100)
  
 
 ## 1. Introduction 
