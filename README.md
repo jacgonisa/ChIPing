@@ -165,7 +165,7 @@ KEGG analysis is at the level of complete metabolic or regulatory pathways, rath
 
 We studied a transcription factor known as PRR5 with this repository. PRR5 acts as a transcripcional repressor in *Arabidopsis thaliana*, more specifically as a regulating factor of the circadian clock expression. The circadian clock of plants regulates a wide range of processes, such as hypocotyle elongation before sunrise or cold-stress response. Therefore, PRR5 allows the expression of different genes in throughout the day, by regulating plants' circadian clock.
 
-In our previous study, we performed ChIP-seq analysis to get further insight of how PRR5 acts.
+In our study, we performed ChIP-seq analysis to get further insight of how PRR5 acts.
 
 The experimental design consists of two biological replicates (samples), each one with a ChIP and a control (input). Reads belong to the chromosome 1 of *Arabidopsis thaliana*. The chromosome 1 FASTA file (genome.fa) along its annotation file (annotation.gtf) as well as the samples are found within `my_test` folder. 
 
