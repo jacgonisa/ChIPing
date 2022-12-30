@@ -173,7 +173,7 @@ Before sample processing, it is necessary to generate a workspace and build an i
 
 Once verified the quality of the samples, reads are mapped to the reference genome is done (**sample_proc.sh**). Mapping is successful.
 
-Peak calling, the next step in our workflow, is a computational method used to identify chromatin regions that have been enriched with aligned reads as a consequence of PRR5 binding ([`Principles of ChIP-seq`](https://www.illumina.com/techniques/sequencing/dna-sequencing/chip-seq.html#:~:text=ChIP%2DSeq%20identifies%20the%20binding,exonuclease%20to%20trim%20unbound%20oligonucleotides).
+Peak calling, the next step in our workflow, is a computational method used to identify chromatin regions that have been enriched with aligned reads as a consequence of PRR5 binding ([`Learn about ChIP-seq!`](https://www.illumina.com/techniques/sequencing/dna-sequencing/chip-seq.html#:~:text=ChIP%2DSeq%20identifies%20the%20binding,exonuclease%20to%20trim%20unbound%20oligonucleotides)).
 
 The output of the peak calling is `merged_2.narrowPeak`. After merging (**peak_call.sh**), the total number of peaks is 902. The number of peaks of each replic is the same as the total, in this example, replicates 1 and 2 are identical. This means that PRR5 binds to chromatin in 902 loci in chromosome 1.
 
@@ -184,3 +184,5 @@ The final step was submitting the peaks' positions to an R script (**chip_bash**
 The GO terms file (`go_trms.tsv`) confirmed that PRR5 is involved in different processes related to plants circadian's clock. Among them, the response to light stimulus and cold aclimatation are highlighted. The KEGG terms file (`kegg_terms.tsv`) links PRR5 and plant hormone signal transduction, MAPK signaling pathway and plant photosyntesis.
 
 Taken all this together, it falls into place that PRR5 is a main regulator of the circadian clock.
+
+![](https://www.activemotif.com/uploads/images/web_site/services-hp-dec2015/chip-seq-services/chip-service-main-banner-web_2.png)
