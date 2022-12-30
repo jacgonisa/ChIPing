@@ -119,7 +119,7 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
         > * `/sample_input_<i>_fastqc.html`.
  
      - **`/replica_results`:** 
-        > * `/<i>_peaks.narrowPeak`: peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be a <i>_peaks.broadPeak.
+        > * `/<i>_peaks.narrowPeak`: peak file generated with macs2 for each replica. The workflow can be modified to study histones PTMs. In that case, the output of macs should be `<i>_peaks.broadPeak`.
         > * `/<i>_summits.bed`: peak summits locations for every peak. File needed to find the motifs at the binding sites. It will only be generated if running in .narrowPeak mode.
         > * `/<i>_model.r`: R script to produce a PDF image of the model based on the data. Once the script is run, the PDF will automatically appear in  /results directory.
         > * `/<i>_peaks.xls`: a tabular file with information about called peaks.
