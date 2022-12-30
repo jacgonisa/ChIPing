@@ -131,16 +131,16 @@ The main script is **chipipe.sh**. The input is a file containing some parameter
     Motif analysis with [`HOMER`](http://homer.ucsd.edu/homer/index.html). By default, it performs de novo motif discovery as well as checking the enrichment of known motifs.
     
        > * `/knownResults.html`: formatted output of known motif finding.
-       > * `/knownResults/ `: directory with known<#>.motif and known<#>.logo.svg for each motif.
+       > * `/knownResults/ `: directory with `known<#>.motif` and `known<#>.logo.svg` for each motif.
        > * `/knownResults.txt`: statistics about known motif enrichment. By default, it is opened in Text.editor. For optimized view, open manually in Excel.
 
        > * `/homerResults.html`: formatted output of de novo motif finding.
-       > * `/homerResults/ `: directory with homer<#>.motif and homer<#>.logo.svg for each motif.
+       > * `/homerResults/ `: directory with `homer<#>.motif` and `homer<#>.logo.svg` for each motif.
        > * `/homerMotifs.motifs<motif_length>`: de novo motif finding, separated by motif length, and representing separate runs of the algorithm.
-       > * `/homerMotifs.all.motifs`: all the homerMotifs.motifs<motif_length> files.
+       > * `/homerMotifs.all.motifs`: all the `homerMotifs.motifs<motif_length>` files.
 
        > * `/seq.autonorm.tsv`: autonormalization statistics for lower-order oligo normalization.
-       > * `/motifFindingParameters.txt`: command used to execute findMotifsGenome.pl.
+       > * `/motifFindingParameters.txt`: command used to execute `findMotifsGenome.pl`.
 
 
     - ChIP-seq Analysis information:
