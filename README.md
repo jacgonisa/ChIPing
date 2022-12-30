@@ -9,7 +9,7 @@ Authors:
 #### Course: Bioinformatics and Genomic Analysis
 ### BSc in Biochemistry
 #### University of Seville
-<img src="(https://www.us.es/sites/default/files/logoPNG_3.png)">
+![](https://www.us.es/sites/default/files/logoPNG_3.png) 
 
  
 
