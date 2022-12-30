@@ -167,7 +167,7 @@ We studied a transcription factor known as PRR5 with this repository. PRR5 acts 
 
 In our previous study, we performed ChIP-seq analysis to get further insight of how PRR5 acts.
 
-The experimental design consists of two biological replicates (samples), each one with a ChIP and a control (input). Reads belong to the chromosome 1 of *Arabidopsis thaliana*. The chromosome 1 FASTA file (genome.fa) along its annotation file (annotation.gtf) are found within `my_test` folder. 
+The experimental design consists of two biological replicates (samples), each one with a ChIP and a control (input). Reads belong to the chromosome 1 of *Arabidopsis thaliana*. The chromosome 1 FASTA file (genome.fa) along its annotation file (annotation.gtf) as well as the samples are found within `my_test` folder. 
 
 Before sample processing, it is necessary to generate a workspace and build an index (starting with **chipipe.sh**). After that, the firt step of the sample processing is the processing control. The result of this analysis can be found in the .html of the quality control of the different samples (`fastqc.html`). This output show basic statistics, per base sequence quality, per base quality scores, per sequence GC content, and so on. For both samples, a green check mark appears in all sections, so the quality analysis was successful. 
 
