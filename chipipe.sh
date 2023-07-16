@@ -4,6 +4,7 @@ PARAMS=$1
 if [ $# -ne 1 ]
 then
 	echo "Number of arguments is: $#"
+ 	echo "Please, only 1 argument for this function!"
 	echo "Usage chipipe.sh <params.file>"
 	exit
 fi
